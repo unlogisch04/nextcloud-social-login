@@ -204,15 +204,16 @@ class ProviderService
                 'callback' => $callbackUrl,
                 'default_group' => $prov['defaultGroup'],
             ], $this->applyConfigMapping('default', $prov));
-            $opts = ['orgs', 'workspace', 'guilds', 'groupMapping', 'useGuildNames'];
+
+            if (isset($scopes[$provider])) {
+                $config['scope'] = $scopes[$provider];
+            }
+
+            $opts = ['orgs', 'workspace', 'guilds', 'groupMapping', 'useGuildNames', 'scope'];
             foreach ($opts as $opt) {
                 if (isset($prov[$opt])) {
                     $config[$opt] = $prov[$opt];
                 }
-            }
-
-            if (isset($scopes[$provider])) {
-                $config['scope'] = $scopes[$provider];
             }
 
             if (isset($prov['auth_params']) && is_array($prov['auth_params'])) {
